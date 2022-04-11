@@ -1,0 +1,13 @@
+*~
+__pycach*
+.terra*
+dist/
+*.egg*
+terraform.*
+build/lib
+build/bdist*
+*.tar.gz
+*key.*
+*.pdf
+build/
+.DS_Store
