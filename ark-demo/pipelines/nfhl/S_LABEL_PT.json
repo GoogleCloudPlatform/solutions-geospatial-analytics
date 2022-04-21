@@ -1,0 +1,59 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "LABEL_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "LABEL",
+        "type": "STRING"
+    },
+    {
+        "name": "LABEL2",
+        "type": "STRING"
+    },
+    {
+        "name": "LABEL_TYPE",
+        "type": "STRING"
+    },
+    {
+        "name": "FONT_SIZE",
+        "type": "STRING"
+    },
+    {
+        "name": "FONT_TYPE",
+        "type": "STRING"
+    },
+    {
+        "name": "FONT_STYLE",
+        "type": "STRING"
+    },
+    {
+        "name": "DEGREES",
+        "type": "INT64"
+    },
+    {
+        "name": "FIRM_PAN",
+        "type": "STRING"
+    },
+    {
+        "name": "SCALE",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "Point reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

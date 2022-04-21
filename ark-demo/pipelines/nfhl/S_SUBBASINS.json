@@ -1,0 +1,67 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "SUBBAS_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "SUBBAS_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "HUC8",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "BASIN_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "SUB_AREA",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "AREA_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "NODE_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "BASIN_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SHAPE_Area",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiPolygon reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

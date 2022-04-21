@@ -1,0 +1,91 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "BASELN_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "SEGMT_NAME",
+        "type": "STRING"
+    },
+    {
+        "name": "WATER_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "STUDY_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "SHOWN_FIRM",
+        "type": "STRING"
+    },
+    {
+        "name": "R_ST_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "R_END_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "V_DATM_OFF",
+        "type": "STRING"
+    },
+    {
+        "name": "DATUM_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "FLD_PROB1",
+        "type": "STRING"
+    },
+    {
+        "name": "FLD_PROB2",
+        "type": "STRING"
+    },
+    {
+        "name": "FLD_PROB3",
+        "type": "STRING"
+    },
+    {
+        "name": "SPEC_CONS1",
+        "type": "STRING"
+    },
+    {
+        "name": "SPEC_CONS2",
+        "type": "STRING"
+    },
+    {
+        "name": "START_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "3D MultiLineString reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

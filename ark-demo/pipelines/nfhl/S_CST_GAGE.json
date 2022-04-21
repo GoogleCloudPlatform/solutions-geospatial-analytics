@@ -1,0 +1,107 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "CSTGAGE_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "CST_MDL_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "GAGE_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "AGENCY",
+        "type": "STRING"
+    },
+    {
+        "name": "REC_INTVL",
+        "type": "STRING"
+    },
+    {
+        "name": "TIME_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "START_PD",
+        "type": "DATETIME"
+    },
+    {
+        "name": "START_TIME",
+        "type": "STRING"
+    },
+    {
+        "name": "END_PD",
+        "type": "DATETIME"
+    },
+    {
+        "name": "END_TIME",
+        "type": "STRING"
+    },
+    {
+        "name": "GAGE_TYPE",
+        "type": "STRING"
+    },
+    {
+        "name": "V_DATUM",
+        "type": "STRING"
+    },
+    {
+        "name": "DATUM_CONV",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "TIDE_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "TIDE_EPOCH",
+        "type": "STRING"
+    },
+    {
+        "name": "TIDE_VBM",
+        "type": "STRING"
+    },
+    {
+        "name": "WVDIR_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "WVSPEC_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "WDSPD_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "WDDIR_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "WDSTN_HT",
+        "type": "INT64"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "Point reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

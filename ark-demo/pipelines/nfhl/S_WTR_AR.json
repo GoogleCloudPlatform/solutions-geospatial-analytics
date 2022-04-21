@@ -1,0 +1,47 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_AR_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "SHOWN_FIRM",
+        "type": "STRING"
+    },
+    {
+        "name": "SHOWN_INDX",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SHAPE_Area",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiPolygon reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

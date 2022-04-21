@@ -1,0 +1,95 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "LEVEE_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "FC_SYS_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "LEVEE_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "LEVEE_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "BANK_LOC",
+        "type": "STRING"
+    },
+    {
+        "name": "USACE_LEV",
+        "type": "STRING"
+    },
+    {
+        "name": "DISTRICT",
+        "type": "STRING"
+    },
+    {
+        "name": "PL84_99TF",
+        "type": "STRING"
+    },
+    {
+        "name": "CONST_DATE",
+        "type": "DATETIME"
+    },
+    {
+        "name": "DGN_FREQ",
+        "type": "STRING"
+    },
+    {
+        "name": "FREEBOARD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "LEVEE_STAT",
+        "type": "STRING"
+    },
+    {
+        "name": "PAL_DATE",
+        "type": "DATETIME"
+    },
+    {
+        "name": "LVDBASE_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "OWNER",
+        "type": "STRING"
+    },
+    {
+        "name": "LEN_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiLineString reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

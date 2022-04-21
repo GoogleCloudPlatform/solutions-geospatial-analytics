@@ -1,0 +1,79 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "FIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "ST_FIPS",
+        "type": "STRING"
+    },
+    {
+        "name": "PCOMM",
+        "type": "STRING"
+    },
+    {
+        "name": "PANEL",
+        "type": "STRING"
+    },
+    {
+        "name": "SUFFIX",
+        "type": "STRING"
+    },
+    {
+        "name": "FIRM_PAN",
+        "type": "STRING"
+    },
+    {
+        "name": "PANEL_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "PRE_DATE",
+        "type": "DATETIME"
+    },
+    {
+        "name": "EFF_DATE",
+        "type": "DATETIME"
+    },
+    {
+        "name": "SCALE",
+        "type": "STRING"
+    },
+    {
+        "name": "PNP_REASON",
+        "type": "STRING"
+    },
+    {
+        "name": "BASE_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SHAPE_Area",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiPolygon reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

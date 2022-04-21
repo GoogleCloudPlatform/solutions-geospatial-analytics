@@ -1,0 +1,79 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "XS_LN_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "STREAM_STN",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "START_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "XS_LTR",
+        "type": "STRING"
+    },
+    {
+        "name": "XS_LN_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "WSEL_REG",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "STRMBED_EL",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "LEN_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "V_DATUM",
+        "type": "STRING"
+    },
+    {
+        "name": "PROFXS_TXT",
+        "type": "STRING"
+    },
+    {
+        "name": "MODEL_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "SEQ",
+        "type": "INT64"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiLineString reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

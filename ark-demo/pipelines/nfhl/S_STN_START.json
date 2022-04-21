@@ -1,0 +1,35 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "START_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "START_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "LOC_ACC",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "Point reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

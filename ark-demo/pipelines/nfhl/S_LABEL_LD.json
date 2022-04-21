@@ -1,0 +1,39 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "LEADER_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "LABEL_TYPE",
+        "type": "STRING"
+    },
+    {
+        "name": "FIRM_PAN",
+        "type": "STRING"
+    },
+    {
+        "name": "SCALE",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiLineString reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

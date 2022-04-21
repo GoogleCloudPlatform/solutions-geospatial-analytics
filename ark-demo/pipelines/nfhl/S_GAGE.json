@@ -1,0 +1,75 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "GAGE_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "GAGE_OWNID",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "AGENCY",
+        "type": "STRING"
+    },
+    {
+        "name": "DTA_ACCESS",
+        "type": "STRING"
+    },
+    {
+        "name": "GAGE_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "GAGE_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "REC_INTRVL",
+        "type": "STRING"
+    },
+    {
+        "name": "TIME_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "START_PD",
+        "type": "DATETIME"
+    },
+    {
+        "name": "END_PD",
+        "type": "DATETIME"
+    },
+    {
+        "name": "DRAIN_AREA",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "AREA_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "Point reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

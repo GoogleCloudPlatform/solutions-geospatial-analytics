@@ -1,0 +1,175 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "TRAN_LN_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "TBASELN_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "TRAN_NO",
+        "type": "STRING"
+    },
+    {
+        "name": "METHOD",
+        "type": "STRING"
+    },
+    {
+        "name": "XCOORD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "YCOORD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "V_DATUM",
+        "type": "STRING"
+    },
+    {
+        "name": "DATUM_CONV",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "CSTLN_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "BEACH_SET",
+        "type": "STRING"
+    },
+    {
+        "name": "SHORE_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "CST_MDL_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "EVENT_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "SWEL",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SIG_HT",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SIG_PD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "CON_HT",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "CON_PD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "MEAN_HT",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "MEAN_PD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "FETCH_LEN",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "FTCHLNUNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "EROS_METH",
+        "type": "STRING"
+    },
+    {
+        "name": "LOC_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "LU_SOURCE",
+        "type": "STRING"
+    },
+    {
+        "name": "RUP",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "ELEV_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "WHAFIS_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "OVERTOP_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "BW_HGT_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "HVFLOW_TF",
+        "type": "STRING"
+    },
+    {
+        "name": "VZONE_EXT",
+        "type": "STRING"
+    },
+    {
+        "name": "SETUP_DPTH",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "WAVE_02PCT",
+        "type": "STRING"
+    },
+    {
+        "name": "LEN_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "TIME_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiLineString reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

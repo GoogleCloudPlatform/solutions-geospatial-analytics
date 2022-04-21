@@ -1,0 +1,51 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "PLSS_AR_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "RANGE",
+        "type": "STRING"
+    },
+    {
+        "name": "TWP",
+        "type": "STRING"
+    },
+    {
+        "name": "SECT_NO",
+        "type": "STRING"
+    },
+    {
+        "name": "NAME",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SHAPE_Area",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiPolygon reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

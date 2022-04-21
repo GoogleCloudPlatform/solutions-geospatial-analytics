@@ -1,0 +1,59 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "HWM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "LOC_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "EVENT_DT",
+        "type": "DATETIME"
+    },
+    {
+        "name": "ELEV",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "LEN_UNIT",
+        "type": "STRING"
+    },
+    {
+        "name": "V_DATUM",
+        "type": "STRING"
+    },
+    {
+        "name": "HWM_SOURCE",
+        "type": "STRING"
+    },
+    {
+        "name": "APX_FREQ",
+        "type": "INT64"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "Point reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

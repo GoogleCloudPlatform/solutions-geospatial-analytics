@@ -1,0 +1,95 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "SUBINFO_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "CASE_NO",
+        "type": "STRING"
+    },
+    {
+        "name": "CASE_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "SUBMIT_BY",
+        "type": "STRING"
+    },
+    {
+        "name": "HUC8",
+        "type": "STRING"
+    },
+    {
+        "name": "STUDY_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "COMP_DATE",
+        "type": "DATETIME"
+    },
+    {
+        "name": "TASK_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "HYDRO_MDL",
+        "type": "STRING"
+    },
+    {
+        "name": "HYDRA_MDL",
+        "type": "STRING"
+    },
+    {
+        "name": "CST_MDL_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "TOPO_SRC",
+        "type": "STRING"
+    },
+    {
+        "name": "TOPO_SCALE",
+        "type": "INT64"
+    },
+    {
+        "name": "CONT_INTVL",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "EFF_DATE",
+        "type": "DATETIME"
+    },
+    {
+        "name": "CONTRCT_NO",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SHAPE_Area",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiPolygon reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]

@@ -1,0 +1,59 @@
+[
+    {
+        "name": "DFIRM_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "VERSION_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "STRUCT_ID",
+        "type": "STRING"
+    },
+    {
+        "name": "STRUCT_TYP",
+        "type": "STRING"
+    },
+    {
+        "name": "CST_STRUCT",
+        "type": "STRING"
+    },
+    {
+        "name": "STRUCT_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "WTR_NM",
+        "type": "STRING"
+    },
+    {
+        "name": "LOC_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "STRUC_DESC",
+        "type": "STRING"
+    },
+    {
+        "name": "SHOWN_FIRM",
+        "type": "STRING"
+    },
+    {
+        "name": "SOURCE_CIT",
+        "type": "STRING"
+    },
+    {
+        "name": "GFID",
+        "type": "STRING"
+    },
+    {
+        "name": "SHAPE_Length",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "MultiLineString reprojected from epsg:4269. source: OpenFileGDB"
+    }
+]
