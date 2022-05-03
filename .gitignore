@@ -12,3 +12,5 @@ build/bdist*
 build/
 .DS_Store
 *.zip
+*.gdb*
+*.xml

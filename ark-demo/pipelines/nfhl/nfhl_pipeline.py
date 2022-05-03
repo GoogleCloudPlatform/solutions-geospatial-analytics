@@ -16,10 +16,11 @@
 Load NFHL into BigQuery
 """
 
+
 def run(pipeline_args, known_args):
     import apache_beam as beam
     from apache_beam.io.gcp.internal.clients import bigquery as beam_bigquery
-    from apache_beam.options.pipeline_options import PipelineOptions, SetupOptions
+    from apache_beam.options.pipeline_options import PipelineOptions
 
     from geobeam.io import GeodatabaseSource
     from geobeam.fn import make_valid, filter_invalid, format_record
