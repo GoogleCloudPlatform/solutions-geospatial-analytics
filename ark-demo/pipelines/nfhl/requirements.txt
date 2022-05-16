@@ -4,3 +4,4 @@ httplib2
 httpx
 google-cloud-storage
 google-cloud-bigquery
+geobeam==0.4.2

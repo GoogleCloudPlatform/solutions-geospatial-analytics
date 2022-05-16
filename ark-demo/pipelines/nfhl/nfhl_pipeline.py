@@ -16,6 +16,55 @@
 Load NFHL into BigQuery
 """
 
+import json
+import datetime
+
+nfhl_layers = json.load(open('nfhl_layers.json'))
+#nfhl_layers = ['S_PROFIL_BASLN']
+
+def parse_gcs_url (gcs_url):
+    [full_path, suffix] = gcs_url.split('.')
+    basename = full_path.split('/')[-1]
+    [prefix, fips, release] = basename.split('_')
+    gdb_name = '{}.gdb'.format(basename)
+
+    release_date = datetime.datetime.strptime(release, '%Y%m%d')
+
+    return release_date, gdb_name
+
+"""
+Fix GDB datetime fields
+see https://desktop.arcgis.com/en/arcmap/latest/manage-data/tables/fundamentals-of-date-fields.htm
+"""
+def format_gdb_datetime(element, schema):
+    from datetime import datetime
+    props, geom = element
+    dt_fields = []
+    for field in schema:
+        if field['type'] == 'DATETIME':
+            dt_fields.append(field['name'])
+
+    for field in dt_fields:
+        if props[field] is not None:
+            dt_in = datetime.strptime(props[field], '%Y-%m-%dT%H:%M:%S%z')
+            props[field] = dt_in.replace(tzinfo=None).strftime('%Y-%m-%d %H:%M:%S')
+
+    return props, geom
+
+def filter_weird(element):
+    from shapely.geometry import shape
+    props, geom = element
+
+    shape_geom = shape(geom)
+
+    if shape_geom.type in ['Polygon', 'MultiPolygon'] and shape_geom.area == 0:
+        return False
+
+    if shape_geom.type == 'Polygon' and shape_geom.length / shape_geom.area > 1e6:
+        return False
+
+    return True
+
 
 def run(pipeline_args, known_args):
     import apache_beam as beam
@@ -23,27 +72,31 @@ def run(pipeline_args, known_args):
     from apache_beam.options.pipeline_options import PipelineOptions
 
     from geobeam.io import GeodatabaseSource
-    from geobeam.fn import make_valid, filter_invalid, format_record
+    from geobeam.fn import make_valid, filter_invalid, format_record, trim_polygons
 
-    pipeline_options = PipelineOptions([
-        '--experiments', 'use_beam_bq_sink',
-    ] + pipeline_args)
+    pipeline_options = PipelineOptions(pipeline_args)
+    release_date, gdb_name = parse_gcs_url(known_args.gcs_url)
+    layer = known_args.layer
 
     with beam.Pipeline(options=pipeline_options) as p:
+        layer_schema = json.loads(open(layer + '.json').read())
         (p
-         | beam.io.Read(GeodatabaseSource(known_args.gcs_url,
-             layer_name=known_args.layer_name,
-             gdb_name=known_args.gdb_name))
-         | 'MakeValid' >> beam.Map(make_valid)
-         | 'FilterInvalid' >> beam.Filter(filter_invalid)
-         | 'FormatRecords' >> beam.Map(format_record)
-         | 'WriteToBigQuery' >> beam.io.WriteToBigQuery(
-             beam_bigquery.TableReference(
-                 datasetId=known_args.dataset,
-                 tableId=known_args.table),
-             method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
-             write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
-             create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER))
+         | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(known_args.gcs_url,
+             layer_name=layer,
+             gdb_name=gdb_name))
+         | 'MakeValid ' + layer >> beam.Map(make_valid)
+         | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
+         | 'TrimPolygons ' + layer >> beam.Map(trim_polygons)
+         | 'FilterInvalidTrimming ' + layer >> beam.Filter(filter_invalid)
+         | 'FilterWeird ' + layer >> beam.Filter(filter_weird)
+         | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
+         | 'FormatRecords ' + layer >> beam.Map(format_record)
+         | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
+               beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId='nfhl', tableId=layer),
+               method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
+               write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
+               create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
+        )
 
 
 if __name__ == '__main__':
@@ -54,11 +107,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--gcs_url')
-    parser.add_argument('--dataset')
-    parser.add_argument('--table')
-    parser.add_argument('--layer_name')
-    parser.add_argument('--gdb_name')
-    parser.add_argument('--in_epsg', type=int, default=None)
+    parser.add_argument('--layer')
     known_args, pipeline_args = parser.parse_known_args()
 
     run(pipeline_args, known_args)
