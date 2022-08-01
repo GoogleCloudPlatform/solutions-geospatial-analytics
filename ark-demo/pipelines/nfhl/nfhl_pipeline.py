@@ -19,9 +19,6 @@ Load NFHL into BigQuery
 import json
 import datetime
 
-nfhl_layers = json.load(open('nfhl_layers.json'))
-#nfhl_layers = ['S_PROFIL_BASLN']
-
 def parse_gcs_url (gcs_url):
     [full_path, suffix] = gcs_url.split('.')
     basename = full_path.split('/')[-1]
@@ -55,6 +52,8 @@ def filter_weird(element):
     from shapely.geometry import shape
     props, geom = element
 
+    logging.info('filter_weird {} {}'.format(props, geom))
+
     shape_geom = shape(geom)
 
     if shape_geom.type in ['Polygon', 'MultiPolygon'] and shape_geom.area == 0:
@@ -76,27 +75,32 @@ def run(pipeline_args, known_args):
 
     pipeline_options = PipelineOptions(pipeline_args)
     release_date, gdb_name = parse_gcs_url(known_args.gcs_url)
-    layer = known_args.layer
+
+    if known_args.layer is not None:
+        nfhl_layers = [known_args.layer]
+    else:
+        nfhl_layers = json.load(open('nfhl_layers.json'))
 
     with beam.Pipeline(options=pipeline_options) as p:
-        layer_schema = json.loads(open(layer + '.json').read())
-        (p
-         | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(known_args.gcs_url,
-             layer_name=layer,
-             gdb_name=gdb_name))
-         | 'MakeValid ' + layer >> beam.Map(make_valid)
-         | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
-         | 'TrimPolygons ' + layer >> beam.Map(trim_polygons)
-         | 'FilterInvalidTrimming ' + layer >> beam.Filter(filter_invalid)
-         | 'FilterWeird ' + layer >> beam.Filter(filter_weird)
-         | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
-         | 'FormatRecords ' + layer >> beam.Map(format_record)
-         | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
-               beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId='nfhl', tableId=layer),
-               method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
-               write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
-               create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
-        )
+        for layer in nfhl_layers:
+            layer_schema = json.loads(open(layer + '.json').read())
+            (p
+             | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(known_args.gcs_url,
+                 layer_name=layer,
+                 gdb_name=gdb_name))
+             | 'MakeValid ' + layer >> beam.Map(make_valid)
+             | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
+             #| 'TrimPolygons ' + layer >> beam.Map(trim_polygons, 1e-7, 1.2)
+             #| 'FilterInvalidTrimming ' + layer >> beam.Filter(filter_invalid)
+             #| 'FilterWeird ' + layer >> beam.Filter(filter_weird)
+             | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
+             | 'FormatRecords ' + layer >> beam.Map(format_record)
+             | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
+                   beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=known_args.dataset, tableId=layer),
+                   method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
+                   write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
+                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
+            )
 
 
 if __name__ == '__main__':
@@ -106,8 +110,9 @@ if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gcs_url')
-    parser.add_argument('--layer')
+    parser.add_argument('--gcs_url', type=str)
+    parser.add_argument('--layer', type=str, default=None)
+    parser.add_argument('--dataset', type=str, default='nfhl')
     known_args, pipeline_args = parser.parse_known_args()
 
     run(pipeline_args, known_args)
