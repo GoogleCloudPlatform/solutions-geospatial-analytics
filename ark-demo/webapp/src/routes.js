@@ -6,6 +6,7 @@ const Main = lazy(() => import(/* webpackPrefetch: true */ 'components/views/mai
 const NotFound = lazy(() => import('components/views/NotFound'));
 const Login = lazy(() => import('components/views/Login'));
 const FloodRiskAreas = lazy(() => import('components/views/FloodRiskAreas.js'));
+const BuildingRisk = lazy(() => import('components/views/BuildingRisk.js'));
 // [hygen] Import views
 
 export const ROUTE_PATHS = {
@@ -13,6 +14,7 @@ export const ROUTE_PATHS = {
   DEFAULT: '/',
   NOT_FOUND: '/404',
   FLOOD_RISK_AREAS: '/floodrisk',
+  BUILDING_RISK: '/buildings',
   // [hygen] Add path routes
 };
 
@@ -29,6 +31,7 @@ const routes = [
     children: [
       // { path: '/', element: <Navigate to='/<your default view>' /> },
       { path: ROUTE_PATHS.FLOOD_RISK_AREAS, element: <FloodRiskAreas /> },
+      { path: ROUTE_PATHS.BUILDING_RISK, element: <BuildingRisk /> },
       // [hygen] Add routes
     ],
   },

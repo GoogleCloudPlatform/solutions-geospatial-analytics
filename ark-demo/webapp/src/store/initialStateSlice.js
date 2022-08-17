@@ -5,7 +5,7 @@ export const initialState = {
   viewState: {
     latitude: 31.802892,
     longitude: -103.007813,
-    zoom: 3,
+    zoom: 4,
     pitch: 0,
     bearing: 0,
     dragRotate: false,

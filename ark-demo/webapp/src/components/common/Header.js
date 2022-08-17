@@ -213,6 +213,13 @@ function NavigationMenu({ column: vertical }) {
           to={ROUTE_PATHS.FLOOD_RISK_AREAS}
           className={classes.navLink}
         />
+        <Tab
+          label='Building risk'
+          value='buildings'
+          component={NavLink}
+          to={ROUTE_PATHS.BUILDING_RISK}
+          className={classes.navLink}
+        />
       </Tabs>
     </Grid>
   );
