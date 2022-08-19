@@ -7,6 +7,7 @@ const NotFound = lazy(() => import('components/views/NotFound'));
 const Login = lazy(() => import('components/views/Login'));
 const FloodRiskAreas = lazy(() => import('components/views/FloodRiskAreas.js'));
 const BuildingRisk = lazy(() => import('components/views/BuildingRisk.js'));
+const TransitRoutes = lazy(() => import('components/views/TransitRoutes.js'));
 // [hygen] Import views
 
 export const ROUTE_PATHS = {
@@ -15,6 +16,7 @@ export const ROUTE_PATHS = {
   NOT_FOUND: '/404',
   FLOOD_RISK_AREAS: '/floodrisk',
   BUILDING_RISK: '/buildings',
+  TRANSIT_ROUTES: '/transit',
   // [hygen] Add path routes
 };
 
@@ -32,6 +34,7 @@ const routes = [
       // { path: '/', element: <Navigate to='/<your default view>' /> },
       { path: ROUTE_PATHS.FLOOD_RISK_AREAS, element: <FloodRiskAreas /> },
       { path: ROUTE_PATHS.BUILDING_RISK, element: <BuildingRisk /> },
+      { path: ROUTE_PATHS.TRANSIT_ROUTES, element: <TransitRoutes /> },
       // [hygen] Add routes
     ],
   },

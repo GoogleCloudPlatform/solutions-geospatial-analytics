@@ -220,6 +220,13 @@ function NavigationMenu({ column: vertical }) {
           to={ROUTE_PATHS.BUILDING_RISK}
           className={classes.navLink}
         />
+        <Tab
+          label='Transit routes'
+          value='transit'
+          component={NavLink}
+          to={ROUTE_PATHS.TRANSIT_ROUTES}
+          className={classes.navLink}
+        />
       </Tabs>
     </Grid>
   );
