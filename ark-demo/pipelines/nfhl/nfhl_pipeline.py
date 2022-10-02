@@ -80,7 +80,7 @@ def filter_weird(element):
     return True
 
 
-def run(pipeline_args, known_args):
+def run(pipeline_args, gcs_url, layer=None, dataset=None):
     import apache_beam as beam
     from apache_beam.io.gcp.internal.clients import bigquery as beam_bigquery
     from apache_beam.options.pipeline_options import PipelineOptions
@@ -128,4 +128,4 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='nfhl')
     known_args, pipeline_args = parser.parse_known_args()
 
-    run(pipeline_args, known_args)
+    run(pipeline_args, known_args.gcs_url, known_args.layer, known_args.dataset)

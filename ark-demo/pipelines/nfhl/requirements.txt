@@ -6,3 +6,5 @@ google-cloud-storage
 google-cloud-bigquery
 geobeam
 h3
+flask
+gunicorn
