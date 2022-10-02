@@ -16,8 +16,11 @@
 Load NFHL into BigQuery
 """
 
+import os
 import json
 import datetime
+
+os.environ['OGR_ORGANIZE_POLYGONS'] = 'SKIP'
 
 def parse_gcs_url (gcs_url):
     [full_path, suffix] = gcs_url.split('.')
@@ -48,6 +51,18 @@ def format_gdb_datetime(element, schema):
 
     return props, geom
 
+
+def convert_to_wkt(element):
+    from shapely.geometry import shape
+
+    props, geom = element
+
+    return {
+        **props,
+        'geom': shape(geom).wkt
+    }
+
+
 def filter_weird(element):
     from shapely.geometry import shape
     props, geom = element
@@ -71,7 +86,7 @@ def run(pipeline_args, known_args):
     from apache_beam.options.pipeline_options import PipelineOptions
 
     from geobeam.io import GeodatabaseSource
-    from geobeam.fn import make_valid, filter_invalid, format_record, trim_polygons
+    from geobeam.fn import make_valid, filter_invalid, format_record
 
     pipeline_options = PipelineOptions(pipeline_args)
     release_date, gdb_name = parse_gcs_url(known_args.gcs_url)
@@ -90,11 +105,9 @@ def run(pipeline_args, known_args):
                  gdb_name=gdb_name))
              | 'MakeValid ' + layer >> beam.Map(make_valid)
              | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
-             #| 'TrimPolygons ' + layer >> beam.Map(trim_polygons, 1e-7, 1.2)
-             #| 'FilterInvalidTrimming ' + layer >> beam.Filter(filter_invalid)
-             #| 'FilterWeird ' + layer >> beam.Filter(filter_weird)
              | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
-             | 'FormatRecords ' + layer >> beam.Map(format_record)
+             #| 'FormatRecords ' + layer >> beam.Map(format_record)
+             | 'ConvertToWKT' + layer >> beam.Map(convert_to_wkt)
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
                    beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=known_args.dataset, tableId=layer),
                    method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
