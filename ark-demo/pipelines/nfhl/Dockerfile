@@ -6,8 +6,9 @@ ENV PYTHONUNBUFFERED True
 # Copy local code to the container image.
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY . ./
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY . ./
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 2 --timeout 0 gcf_launcher:app

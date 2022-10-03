@@ -80,19 +80,17 @@ def filter_weird(element):
     return True
 
 
-def run(pipeline_args, gcs_url, layer=None, dataset=None):
+def run(pipeline_options, gcs_url, layer=None, dataset=None):
     import apache_beam as beam
     from apache_beam.io.gcp.internal.clients import bigquery as beam_bigquery
-    from apache_beam.options.pipeline_options import PipelineOptions
 
     from geobeam.io import GeodatabaseSource
     from geobeam.fn import make_valid, filter_invalid, format_record
 
-    pipeline_options = PipelineOptions(pipeline_args)
-    release_date, gdb_name = parse_gcs_url(known_args.gcs_url)
+    release_date, gdb_name = parse_gcs_url(gcs_url)
 
-    if known_args.layer is not None:
-        nfhl_layers = [known_args.layer]
+    if layer is not None:
+        nfhl_layers = [layer]
     else:
         nfhl_layers = json.load(open('nfhl_layers.json'))
 
@@ -100,7 +98,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
         for layer in nfhl_layers:
             layer_schema = json.loads(open(layer + '.json').read())
             (p
-             | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(known_args.gcs_url,
+             | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(gcs_url,
                  layer_name=layer,
                  gdb_name=gdb_name))
              | 'MakeValid ' + layer >> beam.Map(make_valid)
@@ -109,7 +107,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
              #| 'FormatRecords ' + layer >> beam.Map(format_record)
              | 'ConvertToWKT' + layer >> beam.Map(convert_to_wkt)
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
-                   beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=known_args.dataset, tableId=layer),
+                   beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=dataset, tableId=layer),
                    method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
                    write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
                    create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
@@ -119,6 +117,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
 if __name__ == '__main__':
     import logging
     import argparse
+    from apache_beam.options.pipeline_options import PipelineOptions
 
     logging.getLogger().setLevel(logging.INFO)
 
@@ -128,4 +127,6 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='nfhl')
     known_args, pipeline_args = parser.parse_known_args()
 
-    run(pipeline_args, known_args.gcs_url, known_args.layer, known_args.dataset)
+    pipeline_options = PipelineOptions(pipeline_args)
+
+    run(pipeline_options, known_args.gcs_url, known_args.layer, known_args.dataset)
