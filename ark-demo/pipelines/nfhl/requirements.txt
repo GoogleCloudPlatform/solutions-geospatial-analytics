@@ -8,3 +8,4 @@ geobeam
 h3
 flask
 gunicorn
+google-cloud-logging

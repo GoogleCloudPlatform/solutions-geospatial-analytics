@@ -1,14 +1,18 @@
-FROM python:3.10-slim
+FROM gcr.io/dataflow-templates-base/python38-template-launcher-base
 
-# Allow statements and log messages to immediately appear in the Knative logs
-ENV PYTHONUNBUFFERED True
+ARG WORKDIR=/dataflow/template
+RUN mkdir -p ${WORKDIR}
+WORKDIR ${WORKDIR}
 
-# Copy local code to the container image.
-ENV APP_HOME /app
-WORKDIR $APP_HOME
+
 COPY requirements.txt .
+COPY nfhl_pipeline.py .
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Do not include `apache-beam` in requirements.txt
+ENV FLEX_TEMPLATE_PYTHON_REQUIREMENTS_FILE="${WORKDIR}/requirements.txt"
+ENV FLEX_TEMPLATE_PYTHON_PY_FILE="${WORKDIR}/nfhl_pipeline.py"
 
-COPY . ./
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 2 --timeout 0 gcf_launcher:app
+# Install apache-beam and other dependencies to launch the pipeline
+RUN pip install --upgrade pip
+RUN pip install apache-beam[gcp]
+RUN pip install -U -r ./requirements.txt

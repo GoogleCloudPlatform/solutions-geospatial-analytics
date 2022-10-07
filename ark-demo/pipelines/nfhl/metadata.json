@@ -1,0 +1,12 @@
+{
+  "name": "nfhl-template",
+  "description": "load all nfhl layers into bigquery",
+  "parameters": [
+    {
+      "name": "gcs_url",
+      "label": "gcs path to nfhl state geodatabase",
+      "helpText": "gcs path to nfhl state geodatabase"
+    }
+  ]
+}
+

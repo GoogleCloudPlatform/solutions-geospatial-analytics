@@ -2,13 +2,23 @@
 
 Acquires NFHL data and loads into BigQuery via Dataflow
 
-#### gcf_launcher.py
-
-Cloud Function that kicks off the pipeline when file is added to GCS bucket.
+##### Deploy
 
 ```
-docker build . -t nfhl_pipeline
-PORT=8080 && docker run -p 9090:${PORT} -e PORT=${PORT nfhl_pipeline
+docker build -f Dockerfile.run -t gcr.io/geo-solution-demos/nfhl_run_handler .
+docker build -f Dockerfile.dataflow -t gcr.io/geo-solution-demos/nfhl_pipeline .
+
+gcloud run deploy nfhl-pipeline-runner \
+  --image gcr.io/geo-solution-demos/nfhl_run_handler \
+  --timeout 3600 \
+  --region us-central1
+
+gcloud eventarc triggers create new-nfhl-file-trigger \
+  --destination-run-service=nfhl-pipeline-runner \
+  --event-filters="type=google.cloud.storage.object.v1.finalized" \
+  --event-filters="bucket=nfhl-uploads" \
+  --service-account=111827087946-compute@developer.gserviceaccount.com \
+  --location us-central1
 ```
 
 #### bq_create_tables.py

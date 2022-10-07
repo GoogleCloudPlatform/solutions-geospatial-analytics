@@ -19,10 +19,22 @@ Load NFHL into BigQuery
 import os
 import json
 import datetime
+from apache_beam.options.pipeline_options import PipelineOptions
+from apache_beam.options.pipeline_options import GoogleCloudOptions
+from apache_beam.options.pipeline_options import StandardOptions
+from apache_beam.options.pipeline_options import WorkerOptions
+#from apache_beam.options.pipeline_options import SetupOptions
+import google.cloud.logging
+import logging
+import threading
+
+client = google.cloud.logging.Client()
+client.setup_logging()
 
 os.environ['OGR_ORGANIZE_POLYGONS'] = 'SKIP'
 
-def parse_gcs_url (gcs_url):
+
+def parse_gcs_url(gcs_url):
     [full_path, suffix] = gcs_url.split('.')
     basename = full_path.split('/')[-1]
     [prefix, fips, release] = basename.split('_')
@@ -31,6 +43,7 @@ def parse_gcs_url (gcs_url):
     release_date = datetime.datetime.strptime(release, '%Y%m%d')
 
     return release_date, gdb_name
+
 
 """
 Fix GDB datetime fields
@@ -80,31 +93,83 @@ def filter_weird(element):
     return True
 
 
-def run(pipeline_options, gcs_url, layer=None, dataset=None):
+def orient_polygon(element):
+    from shapely.geometry import shape, polygon, MultiPolygon
+
+    props, geom = element
+    geom_shape = shape(geom)
+
+    if geom_shape.geom_type == 'Polygon':
+        oriented_geom = polygon.orient(geom_shape)
+        return props, oriented_geom
+
+    if geom_shape.geom_type == 'MultiPolygon':
+        pgons = []
+        for pgon in geom_shape.geoms:
+            pgons.append(polygon.orient(pgon))
+            oriented_mpgon = MultiPolygon(pgons)
+        return props, oriented_mpgon
+
+    return props, geom
+
+def get_schemas():
+    from google.cloud import storage
+    import json
+
+    schemas = {}
+    client = storage.Client()
+    bucket = client.bucket('geo-demos')
+    schema_ls = client.list_blobs('geo-demos', prefix='ark-demo/schemas/', delimiter='/')
+
+    for schema_file in schema_ls:
+        if not schema_file.name.endswith('.json'):
+            continue
+
+        layer_name = schema_file.name.split('/')[-1].split('.json')[0]
+        schema_json = json.loads(bucket.blob(schema_file.name).download_as_string())
+        schemas[layer_name] = schema_json
+
+    return schemas
+
+
+def run(pipeline_args, gcs_url, layer=None, dataset=None):
     import apache_beam as beam
     from apache_beam.io.gcp.internal.clients import bigquery as beam_bigquery
 
     from geobeam.io import GeodatabaseSource
-    from geobeam.fn import make_valid, filter_invalid, format_record
+    from geobeam.fn import make_valid, filter_invalid
 
     release_date, gdb_name = parse_gcs_url(gcs_url)
+
+    layer_schemas = get_schemas()
 
     if layer is not None:
         nfhl_layers = [layer]
     else:
-        nfhl_layers = json.load(open('nfhl_layers.json'))
+        nfhl_layers = layer_schemas.keys()
+
+    pipeline_options = PipelineOptions(
+        pipeline_args,
+        experiments=['use_runner_v2'],
+        temp_location='gs://gsd-pipeline-temp',
+        sdk_container_image='gcr.io/dataflow-geobeam/base',
+        project='geo-solution-demos',
+        region='us-central1',
+        worker_machine_type='c2-standard-4',
+        max_num_workers=8
+    )
 
     with beam.Pipeline(options=pipeline_options) as p:
         for layer in nfhl_layers:
-            layer_schema = json.loads(open(layer + '.json').read())
+            layer_schema = layer_schemas[layer]
             (p
              | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(gcs_url,
                  layer_name=layer,
                  gdb_name=gdb_name))
+             | 'OrientPolygons ' + layer >> beam.Map(orient_polygon)
              | 'MakeValid ' + layer >> beam.Map(make_valid)
              | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
              | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
-             #| 'FormatRecords ' + layer >> beam.Map(format_record)
              | 'ConvertToWKT' + layer >> beam.Map(convert_to_wkt)
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
                    beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=dataset, tableId=layer),
@@ -115,18 +180,17 @@ def run(pipeline_options, gcs_url, layer=None, dataset=None):
 
 
 if __name__ == '__main__':
-    import logging
     import argparse
-    from apache_beam.options.pipeline_options import PipelineOptions
 
     logging.getLogger().setLevel(logging.INFO)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--gcs_url', type=str)
-    parser.add_argument('--layer', type=str, default=None)
-    parser.add_argument('--dataset', type=str, default='nfhl')
-    known_args, pipeline_args = parser.parse_known_args()
+    if os.environ.get('PORT') is not None:
+        app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    else:
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--gcs_url', type=str)
+        parser.add_argument('--layer', type=str, default=None)
+        parser.add_argument('--dataset', type=str, default='nfhl')
+        known_args, pipeline_args = parser.parse_known_args()
 
-    pipeline_options = PipelineOptions(pipeline_args)
-
-    run(pipeline_options, known_args.gcs_url, known_args.layer, known_args.dataset)
+        run(pipeline_args, known_args.gcs_url, known_args.layer, known_args.dataset)
