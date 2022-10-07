@@ -17,22 +17,11 @@ Load NFHL into BigQuery
 """
 
 import os
-import json
 import datetime
 from apache_beam.options.pipeline_options import PipelineOptions
-from apache_beam.options.pipeline_options import GoogleCloudOptions
-from apache_beam.options.pipeline_options import StandardOptions
-from apache_beam.options.pipeline_options import WorkerOptions
-#from apache_beam.options.pipeline_options import SetupOptions
-import google.cloud.logging
 import logging
-import threading
-
-client = google.cloud.logging.Client()
-client.setup_logging()
 
 os.environ['OGR_ORGANIZE_POLYGONS'] = 'SKIP'
-
 
 def parse_gcs_url(gcs_url):
     [full_path, suffix] = gcs_url.split('.')
@@ -184,13 +173,10 @@ if __name__ == '__main__':
 
     logging.getLogger().setLevel(logging.INFO)
 
-    if os.environ.get('PORT') is not None:
-        app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
-    else:
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--gcs_url', type=str)
-        parser.add_argument('--layer', type=str, default=None)
-        parser.add_argument('--dataset', type=str, default='nfhl')
-        known_args, pipeline_args = parser.parse_known_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--gcs_url', type=str)
+    parser.add_argument('--layer', type=str, default=None)
+    parser.add_argument('--dataset', type=str, default='nfhl')
+    known_args, pipeline_args = parser.parse_known_args()
 
-        run(pipeline_args, known_args.gcs_url, known_args.layer, known_args.dataset)
+    run(pipeline_args, known_args.gcs_url, known_args.layer, known_args.dataset)
