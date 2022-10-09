@@ -2,24 +2,30 @@
 
 Acquires NFHL data and loads into BigQuery via Dataflow
 
-##### Deploy
+### Build and deploy
+
+##### Build and Run template directly
 
 ```
-docker build -f Dockerfile.run -t gcr.io/geo-solution-demos/nfhl_run_handler .
-docker build -f Dockerfile.dataflow -t gcr.io/geo-solution-demos/nfhl_pipeline .
+docker build . -t gcr.io/geo-solution-demos/nfhl_pipeline_template
+docker push gcr.io/geo-solution-demos/nfhl_pipeline_template
 
-gcloud run deploy nfhl-pipeline-runner \
-  --image gcr.io/geo-solution-demos/nfhl_run_handler \
-  --timeout 3600 \
-  --region us-central1
+gcloud dataflow flex-template build gs://geo-demos/ark-demo/templates/nfhl-template.json
+  --image gcr.io/geo-solution-demos/nfhl_pipeline_template
+  --sdk-language PYTHON
+  --metadata-file metadata.json
 
-gcloud eventarc triggers create new-nfhl-file-trigger \
-  --destination-run-service=nfhl-pipeline-runner \
-  --event-filters="type=google.cloud.storage.object.v1.finalized" \
-  --event-filters="bucket=nfhl-uploads" \
-  --service-account=111827087946-compute@developer.gserviceaccount.com \
-  --location us-central1
+gcloud dataflow flex-template run "nfhl-import"
+  --template-file-gcs-location gs://geo-demos/ark-demo/templates/nfhl-template.json
+  --parameters "gcs_url=gs://geo-demos/ark-demo/sources/nfhl/NFHL_09_20220308.zip"
+  --parameters "layer=S_FLD_HAZ_AR"
+  --parameters "dataset=nfhl_staging"
 ```
+
+##### Run from GCF
+
+
+
 
 #### bq_create_tables.py
 

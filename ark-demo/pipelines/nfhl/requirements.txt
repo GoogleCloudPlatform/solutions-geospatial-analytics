@@ -1,11 +1,1 @@
-requests
-urllib3
-httplib2
-httpx
-google-cloud-storage
-google-cloud-bigquery
-geobeam
-h3
-flask
-gunicorn
-google-cloud-logging
+google-api-python-client

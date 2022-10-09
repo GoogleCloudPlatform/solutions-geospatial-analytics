@@ -54,34 +54,6 @@ def format_gdb_datetime(element, schema):
     return props, geom
 
 
-def convert_to_wkt(element):
-    from shapely.geometry import shape
-
-    props, geom = element
-
-    return {
-        **props,
-        'geom': shape(geom).wkt
-    }
-
-
-def filter_weird(element):
-    from shapely.geometry import shape
-    props, geom = element
-
-    logging.info('filter_weird {} {}'.format(props, geom))
-
-    shape_geom = shape(geom)
-
-    if shape_geom.type in ['Polygon', 'MultiPolygon'] and shape_geom.area == 0:
-        return False
-
-    if shape_geom.type == 'Polygon' and shape_geom.length / shape_geom.area > 1e6:
-        return False
-
-    return True
-
-
 def orient_polygon(element):
     from shapely.geometry import shape, polygon, MultiPolygon
 
@@ -126,7 +98,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
     from apache_beam.io.gcp.internal.clients import bigquery as beam_bigquery
 
     from geobeam.io import GeodatabaseSource
-    from geobeam.fn import make_valid, filter_invalid
+    from geobeam.fn import make_valid, filter_invalid, format_record
 
     release_date, gdb_name = parse_gcs_url(gcs_url)
 
@@ -145,8 +117,12 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
         project='geo-solution-demos',
         region='us-central1',
         worker_machine_type='c2-standard-4',
-        max_num_workers=8
+        max_num_workers=32
     )
+
+    write_method = beam.io.BigQueryDisposition.WRITE_APPEND
+    if known_args.truncate:
+        write_method = beam.io.BigQueryDisposition.WRITE_TRUNCATE
 
     with beam.Pipeline(options=pipeline_options) as p:
         for layer in nfhl_layers:
@@ -155,17 +131,29 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
              | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(gcs_url,
                  layer_name=layer,
                  gdb_name=gdb_name))
-             | 'OrientPolygons ' + layer >> beam.Map(orient_polygon)
+             #| 'OrientPolygons ' + layer >> beam.Map(orient_polygon)
              | 'MakeValid ' + layer >> beam.Map(make_valid)
              | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
              | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
-             | 'ConvertToWKT' + layer >> beam.Map(convert_to_wkt)
+             | 'FormatRecord ' + layer >> beam.Map(format_record, output_type='geojson')
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
                    beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=dataset, tableId=layer),
                    method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
-                   write_disposition=beam.io.BigQueryDisposition.WRITE_TRUNCATE,
+                   write_disposition=write_method,
                    create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
             )
+
+    if known_args.safe_mode:
+        from google.cloud import bigquery
+        client = bigquery.Client()
+        for layer in nfhl_layers:
+            sql = (
+                'insert into `geo-solution-demos.' + dataset + '.' + layer + '` '
+                'select * except(geom), st_geogfromgeojson(geom, make_valid => true) as geom '
+                'from `geo-solution-demos.' + dataset + '_staging' + '.' + layer + '` '
+            )
+            result = client.query(sql)
+            print(result)
 
 
 if __name__ == '__main__':
@@ -176,7 +164,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--gcs_url', type=str)
     parser.add_argument('--layer', type=str, default=None)
-    parser.add_argument('--dataset', type=str, default='nfhl')
+    parser.add_argument('--dataset', type=str, default='nfhl_staging')
+    parser.add_argument('--safe_mode', type=bool, default=False)
+    parser.add_argument('--truncate', type=bool, default=False)
+
     known_args, pipeline_args = parser.parse_known_args()
 
     run(pipeline_args, known_args.gcs_url, known_args.layer, known_args.dataset)

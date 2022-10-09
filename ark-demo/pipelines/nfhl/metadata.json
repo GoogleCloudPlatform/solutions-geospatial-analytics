@@ -6,6 +6,24 @@
       "name": "gcs_url",
       "label": "gcs path to nfhl state geodatabase",
       "helpText": "gcs path to nfhl state geodatabase"
+    },
+    {
+      "name": "layer",
+      "label": "the layer to import",
+      "helpText": "name of layer",
+      "isOptional": true
+    },
+    {
+      "name": "safe_mode",
+      "label": "safe mode", 
+      "helpText": "set to first load geoms as strings into staging table",
+      "isOptional": true
+    },
+    {
+      "name": "truncate",
+      "label": "truncate table", 
+      "helpText": "set to truncate table before inserting",
+      "isOptional": true
     }
   ]
 }
