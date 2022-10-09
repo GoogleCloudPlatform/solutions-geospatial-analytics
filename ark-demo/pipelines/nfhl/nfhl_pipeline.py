@@ -52,25 +52,6 @@ def format_gdb_datetime(element, schema):
     return props, geom
 
 
-def orient_polygon(element):
-    from shapely.geometry import shape, polygon, MultiPolygon
-
-    props, geom = element
-    geom_shape = shape(geom)
-
-    if geom_shape.geom_type == 'Polygon':
-        oriented_geom = polygon.orient(geom_shape)
-        return props, oriented_geom
-
-    if geom_shape.geom_type == 'MultiPolygon':
-        pgons = []
-        for pgon in geom_shape.geoms:
-            pgons.append(polygon.orient(pgon))
-            oriented_mpgon = MultiPolygon(pgons)
-        return props, oriented_mpgon
-
-    return props, geom
-
 def get_schemas():
     from google.cloud import storage
     import json
@@ -129,9 +110,8 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
              | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(gcs_url,
                  layer_name=layer,
                  gdb_name=gdb_name))
-             #| 'OrientPolygons ' + layer >> beam.Map(orient_polygon)
-             | 'MakeValid ' + layer >> beam.Map(make_valid)
-             | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
+             #| 'MakeValid ' + layer >> beam.Map(make_valid)
+             #| 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
              | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
              | 'FormatRecord ' + layer >> beam.Map(format_record, output_type='geojson')
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
