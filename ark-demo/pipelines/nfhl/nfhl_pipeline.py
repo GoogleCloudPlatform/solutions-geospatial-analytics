@@ -16,12 +16,10 @@
 Load NFHL into BigQuery
 """
 
-import os
 import datetime
 from apache_beam.options.pipeline_options import PipelineOptions
 import logging
 
-os.environ['OGR_ORGANIZE_POLYGONS'] = 'SKIP'
 
 def parse_gcs_url(gcs_url):
     [full_path, suffix] = gcs_url.split('.')
