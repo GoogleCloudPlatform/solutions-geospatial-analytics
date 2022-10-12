@@ -35,6 +35,7 @@ gcloud functions deploy nfhl-pipeline-launcher
 
 ```
 gsutil cp <NFHL gdb> gs://<trigger-bucket>
+```
 
 
 
