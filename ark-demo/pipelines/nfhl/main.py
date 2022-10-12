@@ -2,7 +2,7 @@ def run(data, context):
     from googleapiclient.discovery import build
 
     project = 'geo-solution-demos'
-    job = 'nfhl-load'
+    job = 'nfhl-load-' + str(data['name']).split('/')[-1].replace('.', '-').replace('_', '-').lower()
     template = 'gs://geo-demos/ark-demo/templates/nfhl-template.json'
     inputFile = 'gs://' + str(data['bucket']) + '/' + str(data['name'])
     parameters = {

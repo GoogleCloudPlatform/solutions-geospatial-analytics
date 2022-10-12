@@ -95,8 +95,9 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
         sdk_container_image='gcr.io/dataflow-geobeam/base',
         project='geo-solution-demos',
         region='us-central1',
-        worker_machine_type='c2-standard-4',
-        max_num_workers=32
+        worker_machine_type='c2-standard-30',
+        max_num_workers=4,
+        number_of_worker_harness_threads=12
     )
 
     write_method = beam.io.BigQueryDisposition.WRITE_APPEND
@@ -110,8 +111,8 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
              | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(gcs_url,
                  layer_name=layer,
                  gdb_name=gdb_name))
-             #| 'MakeValid ' + layer >> beam.Map(make_valid)
-             #| 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
+             | 'MakeValid ' + layer >> beam.Map(make_valid)
+             | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
              | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
              | 'FormatRecord ' + layer >> beam.Map(format_record, output_type='geojson')
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
@@ -126,12 +127,11 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
         client = bigquery.Client()
         for layer in nfhl_layers:
             sql = (
-                'insert into `geo-solution-demos.' + dataset + '.' + layer + '` '
+                'insert into `geo-solution-demos.nfhl.' + layer + '` '
                 'select * except(geom), st_geogfromgeojson(geom, make_valid => true) as geom '
-                'from `geo-solution-demos.' + dataset + '_staging' + '.' + layer + '` '
+                'from `geo-solution-demos.' + dataset + '.' + layer + '` '
             )
-            result = client.query(sql)
-            print(result)
+            client.query(sql)
 
 
 if __name__ == '__main__':
@@ -143,8 +143,8 @@ if __name__ == '__main__':
     parser.add_argument('--gcs_url', type=str)
     parser.add_argument('--layer', type=str, default=None)
     parser.add_argument('--dataset', type=str, default='nfhl_staging')
-    parser.add_argument('--safe_mode', type=bool, default=False)
-    parser.add_argument('--truncate', type=bool, default=False)
+    parser.add_argument('--safe_mode', type=bool, default=True)
+    parser.add_argument('--truncate', type=bool, default=True)
 
     known_args, pipeline_args = parser.parse_known_args()
 

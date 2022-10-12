@@ -6,7 +6,7 @@ from google.cloud.exceptions import NotFound, BadRequest
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, default='nfhl')
 
-known_args = parser.parse_known_args()
+known_args, others = parser.parse_known_args()
 
 bq_tables = json.load(open('nfhl_layers.json'))
 bq_client = bigquery.Client()

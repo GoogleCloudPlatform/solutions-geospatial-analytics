@@ -22,14 +22,25 @@ gcloud dataflow flex-template run "nfhl-import"
   --parameters "dataset=nfhl_staging"
 ```
 
-##### Run from GCF
+##### Run from storage trigger
 
+```
+gcloud functions deploy nfhl-pipeline-launcher
+  --region us-central1
+  --runtime python38
+  --entry-point run
+  --trigger-bucket nfhl-uploads
+  --source .
+```
+
+```
+gsutil cp <NFHL gdb> gs://<trigger-bucket>
 
 
 
 #### bq_create_tables.py
 
-Creates required BigQuery tables from NFHL schemas. Set `GOOGLE_APPLICATION_CREDENTIALS` when running.
+Creates required BigQuery tables from NFHL schemas. Set `GOOGLE_APPLICATION_CREDENTIALS` and `--dataset`.
 
 #### nfhl_gcs_stage.py
 
