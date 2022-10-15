@@ -1,0 +1,99 @@
+[
+    {
+        "name": "ADVDATE",
+        "type": "STRING"
+    },
+    {
+        "name": "ADVISNUM",
+        "type": "STRING"
+    },
+    {
+        "name": "BASIN",
+        "type": "STRING"
+    },
+    {
+        "name": "DATELBL",
+        "type": "STRING"
+    },
+    {
+        "name": "DVLBL",
+        "type": "STRING"
+    },
+    {
+        "name": "FCSTPRD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "FLDATELBL",
+        "type": "STRING"
+    },
+    {
+        "name": "GUST",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "LAT",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "LON",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "MAXWIND",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "MSLP",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "SSNUM",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "STORMNAME",
+        "type": "STRING"
+    },
+    {
+        "name": "STORMNUM",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "STORMSRC",
+        "type": "STRING"
+    },
+    {
+        "name": "STORMTYPE",
+        "type": "STRING"
+    },
+    {
+        "name": "TCDVLP",
+        "type": "STRING"
+    },
+    {
+        "name": "TAU",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "TCDIR",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "TCSPD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "TIMEZONE",
+        "type": "STRING"
+    },
+    {
+        "name": "VALIDTIME",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "Point loaded from ESRI Shapefile"
+    }
+]

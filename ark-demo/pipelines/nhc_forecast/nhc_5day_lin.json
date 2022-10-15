@@ -1,0 +1,35 @@
+[
+    {
+        "name": "STORMNAME",
+        "type": "STRING"
+    },
+    {
+        "name": "STORMTYPE",
+        "type": "STRING"
+    },
+    {
+        "name": "ADVDATE",
+        "type": "STRING"
+    },
+    {
+        "name": "ADVISNUM",
+        "type": "STRING"
+    },
+    {
+        "name": "STORMNUM",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "FCSTPRD",
+        "type": "FLOAT64"
+    },
+    {
+        "name": "BASIN",
+        "type": "STRING"
+    },
+    {
+        "name": "geom",
+        "type": "GEOGRAPHY",
+        "description": "LineString loaded from ESRI Shapefile"
+    }
+]
