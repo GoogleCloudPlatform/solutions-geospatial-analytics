@@ -6,8 +6,7 @@ def run(data, context):
     template = 'gs://geo-demos/ark-demo/templates/nfhl-template.json'
     inputFile = 'gs://' + str(data['bucket']) + '/' + str(data['name'])
     parameters = {
-        'gcs_url': inputFile,
-        'layer': 'S_FLD_HAZ_AR'
+        'gcs_url': inputFile
     }
     environment = {'temp_location': 'gs://gsd-pipeline-temp'}
 

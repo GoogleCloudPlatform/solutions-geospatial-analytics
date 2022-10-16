@@ -1,29 +1,11 @@
 {
-  "name": "nfhl-template",
-  "description": "load all nfhl layers into bigquery",
+  "name": "nhc-template",
+  "description": "load all nhc forecast layers into bigquery",
   "parameters": [
     {
       "name": "gcs_url",
-      "label": "gcs path to nfhl state geodatabase",
-      "helpText": "gcs path to nfhl state geodatabase"
-    },
-    {
-      "name": "layer",
-      "label": "the layer to import",
-      "helpText": "name of layer",
-      "isOptional": true
-    },
-    {
-      "name": "safe_mode",
-      "label": "safe mode", 
-      "helpText": "set to first load geoms as strings into staging table",
-      "isOptional": true
-    },
-    {
-      "name": "truncate",
-      "label": "truncate table", 
-      "helpText": "set to truncate table before inserting",
-      "isOptional": true
+      "label": "gcs path to nhc code shapefile",
+      "helpText": "gcs path to nhc code shapefile"
     }
   ]
 }

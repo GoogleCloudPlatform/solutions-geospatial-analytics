@@ -95,9 +95,9 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
         sdk_container_image='gcr.io/dataflow-geobeam/base',
         project='geo-solution-demos',
         region='us-central1',
-        worker_machine_type='c2-standard-30',
-        max_num_workers=4,
-        number_of_worker_harness_threads=12
+        machine_type='c2-standard-8',
+        max_num_workers=12,
+        number_of_worker_harness_threads=1
     )
 
     write_method = beam.io.BigQueryDisposition.WRITE_APPEND
@@ -122,6 +122,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
                    create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
             )
 
+"""
     if known_args.safe_mode:
         from google.cloud import bigquery
         client = bigquery.Client()
@@ -132,6 +133,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
                 'from `geo-solution-demos.' + dataset + '.' + layer + '` '
             )
             client.query(sql)
+"""
 
 
 if __name__ == '__main__':
