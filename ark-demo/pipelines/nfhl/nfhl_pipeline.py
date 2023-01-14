@@ -17,7 +17,7 @@ Load NFHL into BigQuery
 """
 
 import datetime
-from apache_beam.options.pipeline_options import PipelineOptions
+from apache_beam.options.pipeline_options import PipelineOptions, GoogleCloudOptions
 import logging
 
 
@@ -95,10 +95,10 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
         sdk_container_image='gcr.io/dataflow-geobeam/base',
         project='geo-solution-demos',
         region='us-central1',
-        machine_type='c2-standard-8',
-        max_num_workers=12,
         number_of_worker_harness_threads=1
     )
+    
+    pipeline_options.view_as(GoogleCloudOptions).dataflow_service_options = ['enable_prime']
 
     write_method = beam.io.BigQueryDisposition.WRITE_APPEND
     if known_args.truncate:
@@ -110,16 +110,16 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
             (p
              | 'Read ' + layer >> beam.io.Read(GeodatabaseSource(gcs_url,
                  layer_name=layer,
-                 gdb_name=gdb_name))
-             | 'MakeValid ' + layer >> beam.Map(make_valid)
-             | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
-             | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
-             | 'FormatRecord ' + layer >> beam.Map(format_record)
+                 gdb_name=gdb_name)).with_resource_hints(min_ram="30GB")
+             | 'MakeValid ' + layer >> beam.Map(make_valid).with_resource_hints(min_ram="30GB")
+             | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid).with_resource_hints(min_ram="30GB")
+             | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema).with_resource_hints(min_ram="30GB")
+             | 'FormatRecord ' + layer >> beam.Map(format_record).with_resource_hints(min_ram="30GB")
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
                    beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=dataset, tableId=layer),
                    method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
                    write_disposition=write_method,
-                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER)
+                   create_disposition=beam.io.BigQueryDisposition.CREATE_NEVER).with_resource_hints(min_ram="30GB")
             )
 
 """
