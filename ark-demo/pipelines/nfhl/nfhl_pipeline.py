@@ -114,7 +114,7 @@ def run(pipeline_args, gcs_url, layer=None, dataset=None):
              | 'MakeValid ' + layer >> beam.Map(make_valid)
              | 'FilterInvalid ' + layer >> beam.Filter(filter_invalid)
              | 'FormatGDBDatetimes ' + layer >> beam.Map(format_gdb_datetime, layer_schema)
-             | 'FormatRecord ' + layer >> beam.Map(format_record, output_type='geojson')
+             | 'FormatRecord ' + layer >> beam.Map(format_record)
              | 'WriteToBigQuery ' + layer >> beam.io.WriteToBigQuery(
                    beam_bigquery.TableReference(projectId='geo-solution-demos', datasetId=dataset, tableId=layer),
                    method=beam.io.WriteToBigQuery.Method.FILE_LOADS,
