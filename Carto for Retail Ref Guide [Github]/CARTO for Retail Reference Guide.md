@@ -16,10 +16,10 @@ Special Acknowledgments: The authors would like to thank Daria Kolarczyk, Jamie 
 
 
 * Introduction
-* Components
-* Implementation
-* Example and Demonstration
-* Use Cases
+* [Components](https://github.com/remylouisew/solutions-geospatial-analytics/edit/main/Carto%20for%20Retail%20Ref%20Guide%20%5BGithub%5D/CARTO%20for%20Retail%20Reference%20Guide.md#components)
+* [Implementation](https://github.com/remylouisew/solutions-geospatial-analytics/edit/main/Carto%20for%20Retail%20Ref%20Guide%20%5BGithub%5D/CARTO%20for%20Retail%20Reference%20Guide.md#implementation)
+* [Example and Demonstration](https://github.com/remylouisew/solutions-geospatial-analytics/edit/main/Carto%20for%20Retail%20Ref%20Guide%20%5BGithub%5D/CARTO%20for%20Retail%20Reference%20Guide.md#video-demonstration)
+* [Use Cases](https://github.com/remylouisew/solutions-geospatial-analytics/edit/main/Carto%20for%20Retail%20Ref%20Guide%20%5BGithub%5D/CARTO%20for%20Retail%20Reference%20Guide.md#use-cases)
 
 
 ## Introduction
@@ -30,6 +30,8 @@ Retail companies are increasingly using geospatial data to understand their cust
 
 This solution guide will discuss [CARTO for Retail](https://carto.com/solutions/carto-for-retail/), which is a set of platform components and analytical functions developed specifically to address the most important business decisions in retail. The CARTO for Retail functions are deployed directly in BigQuery, and leverage models that combine spatial analytics with BigQuery Machine Learning tools to run predictions and analysis in the same location as your data. The CARTO platform uses intuitive point-and-click spatial SQL analysis and is fully integrated with Google Maps.
 
+
+.
 
 ## Components
 
@@ -103,6 +105,7 @@ CARTO for Retail webinar:
 
 [https://go.carto.com/webinars/carto-for-retail](https://go.carto.com/webinars/carto-for-retail) 
 
+.
 
 ## Implementation
 
@@ -165,10 +168,10 @@ The [retail analysis](https://docs.carto.com/analytics-toolbox-bigquery/sql-refe
 
 By transforming your retail location data into tiles, you can greatly improve the performance of your spatial visualizations. Vector tiles are data that has been aggregated in a way that makes them optimal for visualization. A tileset is a collection of tiles, which would cover a specific area on a map. You can create vector tiles directly in BigQuery SQL using CARTO’s [BigQuery Tiler ](https://carto.com/bigquery-tiler/). 
 
-	With the [tiler function](https://docs.carto.com/analytics-toolbox-bigquery/sql-reference/tiler/), which is part of the CARTO Analytics Toolbox, you can define your tiles’ parameters (e.g, spatial index and zoom level) and the output is saved in BigQuery. The data is partitioned and optimized so that even billions of rows can then be rendered in a CARTO visualization with low latency.
+With the [tiler function](https://docs.carto.com/analytics-toolbox-bigquery/sql-reference/tiler/), which is part of the CARTO Analytics Toolbox, you can define your tiles’ parameters (e.g, spatial index and zoom level) and the output is saved in BigQuery. The data is partitioned and optimized so that even billions of rows can then be rendered in a CARTO visualization with low latency.
 
 
-### Video Demonstration
+## Video Demonstration
 
 To better understand the functions of the CARTO for Retail platform, please the watch this demonstration, which walks through the following steps: 
 
@@ -184,7 +187,7 @@ CARTO for Retail Demo Video:
 [https://drive.google.com/file/d/1MQ1nPbsU6G8E5_cbY82qk_t2kZABaviP/view?usp=sharing](https://drive.google.com/file/d/1MQ1nPbsU6G8E5_cbY82qk_t2kZABaviP/view?usp=sharing) 
 
 
-### Code Example
+## Code Example
 
 To showcase what can be accomplished with BigQuery and the CARTO Analytics Toolbox for Retail, let’s walk through the steps to identify twin areas in Texas to match to a high performing store in Austin, TX.
 
@@ -264,6 +267,7 @@ CALL `carto-un`.carto.FIND_TWIN_AREAS(
 
 The result is [this interactive map](https://clausa.app.carto.com/map/0b8fe0fe-f191-4545-a37d-b0f06e0c2b9d) which shows us the top areas that will likely perform the most similar to our target store based on our geospatial factors. We can also include other store factors in our first step to add site specific details like square footage or year built.
 
+.
 
 ## Use Cases
 
