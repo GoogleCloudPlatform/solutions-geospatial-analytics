@@ -267,6 +267,8 @@ CALL `carto-un`.carto.FIND_TWIN_AREAS(
 
 The result is [this interactive map](https://clausa.app.carto.com/map/0b8fe0fe-f191-4545-a37d-b0f06e0c2b9d) which shows us the top areas that will likely perform the most similar to our target store based on our geospatial factors. We can also include other store factors in our first step to add site specific details like square footage or year built.
 
+![alt_text](images/image9.png "image_tooltip")
+
 .
 
 ## Use Cases
