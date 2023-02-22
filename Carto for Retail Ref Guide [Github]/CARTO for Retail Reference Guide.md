@@ -41,11 +41,7 @@ CARTO for Retail connects natively with BigQuery hosted location data, removing 
 The CARTO platform contains the following components to address the most common retail analytics use cases. 
 
 
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image1.png "image_tooltip")
+![alt_text](images/image4.png "image_tooltip")
 
 
 _CARTO for Retail Components Diagram_
@@ -246,11 +242,7 @@ CALL `carto-un`.carto.BUILD_REVENUE_MODEL(
 Finally, we can now predict our twin areas. In this function we pick a target index which we can identify from our map. As we can see here, this cell is the top performing store we want to find similar areas to.
 
 
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image2.png "image_tooltip")
+![alt_text](images/image7.png "image_tooltip")
 
 
 From here we can run our [Twin Areas model](https://docs.carto.com/analytics-toolbox-bigquery/sql-reference/retail/#find_twin_areas). The model is based on Principal Component Analysis (PCA) and the full description [can be found here](https://carto.com/blog/spatial-data-science-site-planning/). We provide a query containing our target H3 cell, a second query of the cells we want to target to study (any cell without a store in Texas), and several other arguments to fine tune our results:
@@ -284,10 +276,8 @@ Traditional BI tools may simply show you where your store locations are and offe
 
 
 
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
-
-![alt_text](images/image3.png "image_tooltip")
+![alt_text](images/image6.png "image_tooltip")
 
 
 Allegro is the most popular shopping platform in Poland and the largest e-commerce platform of European origin. The company decided to invest in its own logistics and delivery services. Using its own fulfillment infrastructure, network of parcel lockers, and last-mile delivery services, Allegro aimed to improve consumer convenience and speed up deliveries. 
@@ -314,10 +304,7 @@ Thanks to data from the CARTO and the Analytics Toolbox, retailers can do this b
 
 
 
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image4.png "image_tooltip")
+![alt_text](images/image1.png "image_tooltip")
 
 
 Coca-Cola Bottlers Japan Inc. (CCBJI) produces and supplies approximately 90% of the Coca-Cola system’s products in Japan. With a network of over 700,000 vending machines across Japan, CCBJI collects and hosts a huge amount of data in BigQuery regarding not only the overall sales performance of each machine, but also how individual products perform per machine and location. Historically CCBJI had to extract the data necessary for analysis from the core system, build their own mechanism to create a data warehouse using ETL tools, and perform various analyzes.
