@@ -36,8 +36,8 @@ gcloud run deploy geoserver-serving \
     --execution-environment gen2 \
     --allow-unauthenticated \
     --service-account [projectid]-compute@developer.gserviceaccount.com \
-    --update-env-vars FILESTORE_IP_ADDRESS=XX.XX.XX.XX,FILE_SHARE_NAME=geoserver1
-    --min-instances 1
+    --update-env-vars FILESTORE_IP_ADDRESS=XX.XX.XX.XX,FILE_SHARE_NAME=geoserver1,GEOSERVER_CONSOLE_DISABLED=true
+    --min-instances 1 \
     --memory 4G
 ```
 
