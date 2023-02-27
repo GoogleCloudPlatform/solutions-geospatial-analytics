@@ -22,10 +22,11 @@ RUN apt update -y && apt install tini nfs-kernel-server nfs-common maven unzip -
 COPY . .
 
 RUN chmod +x filestore_run.sh
-#RUN mvn package -DskipTests
 
-RUN cp target/*SNAPSHOT.jar $GEOSERVER_LIB_DIR
-RUN cp target/dependency-jars/*.jar $GEOSERVER_LIB_DIR
+# install bigquery-geotools driver
+RUN wget https://github.com/GoogleCloudPlatform/bigquery-geotools/releases/download/0.0.1-alpha/zipfile-bigquery-geotools.zip \
+  && unzip zipfile-bigquery-geotools.zip \
+  && cp *.jar $GEOSERVER_LIB_DIR
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 

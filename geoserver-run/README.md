@@ -16,13 +16,22 @@ because of how geoserver deals with its local configuration.
 
 ## How to deploy
 
-1. Set up Filestore. See this tutorial on [Using Filestore with Cloud Run](https://cloud.google.com/run/docs/tutorials/network-filesystems-filestore)
+1. Set up Filestore and set the resulting environment variables.
+See this tutorial on [Using Filestore with Cloud Run](https://cloud.google.com/run/docs/tutorials/network-filesystems-filestore)
 
-2. Deploy Geoserver serving instances. These will not host the admin interface due to `GEOSERVER_CONSOLE_DISABLED=true`
+2. Build the geoserver image from the included Dockerfile. It will download
+the bigquery-geotools JARs and install them into the container image.
+
+```
+docker build . -t gcr.io/<PROJECT>/geoserver-run
+docker push gcr.io/<PROJECT>/geoserver-run
+```
+
+3. Deploy Geoserver serving instances. These will not host the admin interface due to `GEOSERVER_CONSOLE_DISABLED=true`
 
 ```
 gcloud run deploy geoserver-serving \
-    --image gcr.io/bigquery-geotools/geoserver-run-serving \
+    --image gcr.io/<PROJECT>/geoserver-run \
     --vpc-connector geoserverdata \
     --execution-environment gen2 \
     --allow-unauthenticated \
@@ -32,11 +41,11 @@ gcloud run deploy geoserver-serving \
     --memory 4G
 ```
 
-3. Deploy the Geoserver admin instance. This must be deployed on a VM, or as a Cloud Run app that only runs a single instance at a time. (`--max-instances 1`)
+4. Deploy the Geoserver admin instance. This must be deployed on a VM, or as a Cloud Run app that only runs a single instance at a time. (`--max-instances 1`)
 
 ```
 gcloud run deploy geoserver-admin \
-    --image gcr.io/bigquery-geotools/geoserver-run-admin \
+    --image gcr.io/<PROJECT>/geoserver-run
     --max-instances 1 \
     --vpc-connector geoserverdata \
     --execution-environment gen2 \
