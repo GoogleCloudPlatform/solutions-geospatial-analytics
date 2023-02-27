@@ -12,6 +12,8 @@ The key requirement for geoserver to run in this fashion is that the
 administration web user interface must be run on a separate, stateful machine
 because of how geoserver deals with its local configuration.
 
+![Geoserver on Run diagram](geoserver_run_diagram.png)
+
 ## How to deploy
 
 1. Set up Filestore. See this tutorial on [Using Filestore with Cloud Run](https://cloud.google.com/run/docs/tutorials/network-filesystems-filestore)
@@ -88,7 +90,7 @@ performance.
 
 ### Cloud Run
 
-As can be inferred above, we recommend at least *4GB* RAM for serving nodes,
+As can be inferred above, we recommend at least **4GB** RAM for serving nodes,
 and 2GB for the admin node. A variety of CPU options can be selected for
 your deployment, and it is recommended that you test your own workload to
 determine the best CPU configuration for your needs.
