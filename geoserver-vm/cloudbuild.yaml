@@ -1,0 +1,17 @@
+steps:
+
+  - name: gcr.io/kaniko-project/executor
+    id: geoserver_vm_builder
+    args:
+      - --dockerfile=Dockerfile
+      - --destination=gcr.io/bigquery-geotools/geoserver-vm
+      - --cache=true
+
+  - name: hashicorp/terraform:1.3.9
+    id: tf_apply
+    entrypoint: 'sh'
+    args:
+      - -c
+      - |
+        terraform init
+        terraform apply --auto-approve
