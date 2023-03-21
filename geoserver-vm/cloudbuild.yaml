@@ -1,10 +1,12 @@
 steps:
+  - name: gcr.io/cloud-builders/gsutil
+    args: ['mb', 'gs://$_TF_BUCKET']
 
   - name: gcr.io/kaniko-project/executor
     id: geoserver_vm_builder
     args:
       - --dockerfile=Dockerfile
-      - --destination=gcr.io/bigquery-geotools/geoserver-vm
+      - --destination=gcr.io/bigquery-geotools/geoserver
       - --cache=true
 
   - name: hashicorp/terraform:1.3.9

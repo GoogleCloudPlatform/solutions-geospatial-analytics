@@ -19,5 +19,8 @@ RUN wget https://github.com/GoogleCloudPlatform/bigquery-geotools/releases/downl
   && unzip zipfile-bigquery-geotools.zip \
   && cp *.jar $GEOSERVER_LIB_DIR
 
+#RUN sed -i 's/port="8080"/port="81"/' ${CATALINA_HOME}/conf/server.xml
+
 ENTRYPOINT /opt/startup.sh
 WORKDIR /opt
+EXPOSE 8080
