@@ -20,8 +20,6 @@ from pathlib import Path
 from datetime import date, timedelta, datetime
 from google.cloud import storage
 
-gcs_bucket_name = 'geo-demos'
-gcs_path = 'ark-demo/sources/nfhl/'
 url_template = 'https://hazards.fema.gov/nfhlv2/output/State/'
 file_template = 'NFHL_{}_{}.zip'
 
@@ -42,8 +40,7 @@ def show_progress(filename):
 
     return show_progress_func
 
-def download(nfhl_file, nfhl_url):
-
+def download(nfhl_file, nfhl_url, gcs_bucket_name, gcs_path):
     gcs_client = storage.Client()
     gcs_bucket = gcs_client.bucket(gcs_bucket_name)
     gcs_filepath = gcs_path + nfhl_file
@@ -63,10 +60,10 @@ def download(nfhl_file, nfhl_url):
     except Exception as e:
         return None, e
 
-def upload(filepath):
+def upload(filepath, gcs_bucket_name, gcs_path):
     gcs_client = storage.Client()
     gcs_bucket = gcs_client.bucket(gcs_bucket_name)
-    gcs_filepath = gcs_path + filepath
+    gcs_filepath = '{}{}'.format(gcs_path, filepath)
 
     logging.info('Uploading {} to GCS...'.format(filepath))
     try:
@@ -78,7 +75,7 @@ def upload(filepath):
         logging.warning(e)
         return None, e
 
-def stage_files(state_fips):
+def stage_files(state_fips, gcs_bucket_name, gcs_path):
     for state, fips in state_fips.items():
         start_date = datetime.now()
         end_date = start_date - timedelta(days=365)
@@ -92,7 +89,7 @@ def stage_files(state_fips):
             cur_date -= timedelta(days=1)
 
             logging.info('Attempting {}...'.format(nfhl_url))
-            filepath, dl_status = download(nfhl_file, nfhl_url)
+            filepath, dl_status = download(nfhl_file, nfhl_url, gcs_bucket_name, gcs_path)
 
             if dl_status == 404:
                 continue
@@ -108,7 +105,7 @@ def stage_files(state_fips):
             else:
                 logging.info('Download complete {}'.format(nfhl_file))
 
-            gcs_path, ul_status = upload(filepath)
+            gcs_path, ul_status = upload(filepath, gcs_bucket_name, gcs_path)
 
             if ul_status != 'success':
                 logging.warning('Upload skipped: {} {}'.format(ul_status, gcs_path))
@@ -124,6 +121,8 @@ if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument('--state', type=str, default='')
+    parser.add_argument('--gcs_bucket', type=str, default='geo-demos')
+    parser.add_argument('--gcs_path', type=str, default='ark-demo/sources/nfhl')
     known_args, unknown = parser.parse_known_args()
 
     state = known_args.state.upper()
@@ -134,6 +133,6 @@ if __name__ == '__main__':
     if known_args.state != '':
         single = {}
         single[state] = state_fips[state]
-        stage_files(single)
+        stage_files(single, known_args.gcs_bucket, known_args.gcs_path)
     else:
-        stage_files(state_fips)
+        stage_files(state_fips, known_args.gcs_bucket, known_args.gcs_path)
