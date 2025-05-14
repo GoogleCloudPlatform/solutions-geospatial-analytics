@@ -95,7 +95,7 @@ root_agent = Agent(
     """),
     description='You are an agent that starts a workflow to merge to tables together in BigQuery',
     sub_agents=[
-        MergerAgent
+        MergerAgent,
         SchemaGatherer,
         DescriberAgent,
         MapperAgent,
