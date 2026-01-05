@@ -1,6 +1,6 @@
 steps:
-  - name: gcr.io/cloud-builders/gsutil
-    args: ['mb', 'gs://$_TF_BUCKET']
+  - name: gcr.io/cloud-builders/gcloud
+    args: ['storage', 'buckets', 'create', 'gs://$_TF_BUCKET']
 
   - name: gcr.io/kaniko-project/executor
     id: geoserver_vm_builder

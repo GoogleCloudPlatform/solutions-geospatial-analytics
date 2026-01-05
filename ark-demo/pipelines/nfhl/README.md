@@ -34,7 +34,7 @@ gcloud functions deploy nfhl-pipeline-launcher
 ```
 
 ```
-gsutil cp <NFHL gdb> gs://<trigger-bucket>
+gcloud storage cp <NFHL gdb> gs://<trigger-bucket>
 ```
 
 
@@ -50,4 +50,3 @@ Acquires latest NFHL GDB files from FEMA's website and uploads to GCS
 #### nfhl_pipeline.py
 
 Dataflow pipeline to load staged GCS files into BigQuery
-

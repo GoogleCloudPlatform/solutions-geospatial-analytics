@@ -41,5 +41,5 @@ gcloud functions deploy nhc-pipeline-launcher
   --trigger-bucket nhc-uploads
   --source .
 
-gsutil cp <NHC shp> gs://nhc-uploads
+gcloud storage cp <NHC shp> gs://nhc-uploads
 ```
