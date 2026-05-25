@@ -20,7 +20,7 @@ gcloud compute firewall-rules create allow-http-8080 --allow tcp:8080 --target-t
 1. Create a terraform state bucket, e.g. 
 
 ```
-gsutil mb gs://geoserver-vm-tfstate
+gcloud storage buckets create gs://geoserver-vm-tfstate 
 ```
 
 2. Deploy!
@@ -35,5 +35,4 @@ GOOGLE_APPLICATION_CREDENTIALS=your-key-file.json terraform apply
 # update main.tf with your state bucket name
 gcloud builds sbumit --subtitutions _TF_BUCKET=geoserver-vm-tfstate
 ```
-
 
