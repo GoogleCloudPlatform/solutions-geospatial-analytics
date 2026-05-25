@@ -20,7 +20,7 @@ gcloud compute firewall-rules create allow-http-8080 --allow tcp:8080 --target-t
 1. Create a terraform state bucket, e.g. 
 
 ```
-gcloud storage buckets create gs://geoserver-vm-tfstate
+gcloud storage buckets create gs://geoserver-vm-tfstate 
 ```
 
 2. Deploy!
